@@ -4,14 +4,14 @@ WORKDIR /src
 
 # Copy csproj first (IMPORTANT for restore caching)
 COPY *.sln ./
-COPY OttooGennie.API/*.csproj ./OttooGennie.API/
+COPY OttooGennie.API/OttooGennie.API.csproj ./OttooGennie.API/
 
-RUN dotnet restore
+RUN dotnet restore OttooGennie.API/OttooGennie.API.csproj
 
 # Copy everything else
 COPY . .
 
-RUN dotnet publish OttooGennie.API -c Release -o /app/out
+RUN dotnet publish OttooGennie.API/OttooGennie.API.csproj -c Release -o /app/out
 
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview
