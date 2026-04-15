@@ -1,26 +1,16 @@
-# Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy csproj first (IMPORTANT for restore caching)
-COPY *.sln ./
-COPY OttooGennie.API/OttooGennie.API.csproj ./OttooGennie.API/
-
-RUN dotnet restore OttooGennie.API/OttooGennie.API.csproj
-
-# Copy everything else
 COPY . .
+RUN dotnet restore OttooGennie.API.csproj
+RUN dotnet publish OttooGennie.API.csproj -c Release -o /app/out
 
-RUN dotnet publish OttooGennie.API/OttooGennie.API.csproj -c Release -o /app/out
-
-# Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
 COPY --from=build /app/out .
 
 ENV ASPNETCORE_URLS=http://+:10000
-
 EXPOSE 10000
 
 ENTRYPOINT ["dotnet", "OttooGennie.API.dll"]
