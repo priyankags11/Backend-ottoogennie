@@ -1,0 +1,6 @@
+@OttooGennie.API_HostAddress = http://localhost:5092
+
+GET {{OttooGennie.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
