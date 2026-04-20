@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -11,21 +12,27 @@ public class UserController : ControllerBase
         _context = context;
     }
 
-    // CREATE USER
-    [HttpPost]
-    public async Task<IActionResult> Create(User user)
+    // GET /api/user/{phone}
+    [HttpGet("{phone}")]
+    public async Task<IActionResult> GetByPhone(string phone)
     {
-        user.Id = Guid.NewGuid();
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
+        var user = await _context.Users
+            .Include(u => u.Bookings)
+            .FirstOrDefaultAsync(u => u.PhoneNumber == phone);
+
+        if (user == null) return NotFound();
         return Ok(user);
     }
 
-    // GET USER BY PHONE
-    [HttpGet("{phone}")]
-    public IActionResult GetByPhone(string phone)
+    // GET /api/user
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
     {
-        var user = _context.Users.FirstOrDefault(x => x.PhoneNumber == phone);
-        return Ok(user);
+        var users = await _context.Users
+            .Include(u => u.Bookings)
+            .OrderByDescending(u => u.CreatedAt)
+            .ToListAsync();
+
+        return Ok(users);
     }
 }
