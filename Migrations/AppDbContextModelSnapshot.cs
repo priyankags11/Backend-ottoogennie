@@ -16,77 +16,205 @@ namespace OttooGennie.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Admin", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
+
+                b.Property<string>("AdminKey")
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("timestamp with time zone");
+
+                b.Property<bool>("IsActive")
+                    .HasColumnType("boolean");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                b.Property<string>("Phone")
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                b.HasKey("Id");
+
+                b.HasIndex("AdminKey")
+                    .IsUnique();
+
+                b.ToTable("Admins");
+
+                b.HasData(
+                    new
+                    {
+                        Id = new Guid("11111111-0000-0000-0000-000000000001"),
+                        AdminKey = "RRADM001",
+                        CreatedAt = new DateTime(2026, 4, 20, 17, 2, 7, 574, DateTimeKind.Utc).AddTicks(7515),
+                        IsActive = true,
+                        Name = "Admin One",
+                        Phone = "9000000001"
+                    },
+                    new
+                    {
+                        Id = new Guid("11111111-0000-0000-0000-000000000002"),
+                        AdminKey = "RRADM002",
+                        CreatedAt = new DateTime(2026, 4, 20, 17, 2, 7, 574, DateTimeKind.Utc).AddTicks(7546),
+                        IsActive = true,
+                        Name = "Admin Two",
+                        Phone = "9000000002"
+                    },
+                    new
+                    {
+                        Id = new Guid("11111111-0000-0000-0000-000000000003"),
+                        AdminKey = "RRADM003",
+                        CreatedAt = new DateTime(2026, 4, 20, 17, 2, 7, 574, DateTimeKind.Utc).AddTicks(7553),
+                        IsActive = true,
+                        Name = "Admin Three",
+                        Phone = "9000000003"
+                    },
+                    new
+                    {
+                        Id = new Guid("11111111-0000-0000-0000-000000000004"),
+                        AdminKey = "RRADM004",
+                        CreatedAt = new DateTime(2026, 4, 20, 17, 2, 7, 574, DateTimeKind.Utc).AddTicks(7559),
+                        IsActive = true,
+                        Name = "Admin Four",
+                        Phone = "9000000004"
+                    },
+                    new
+                    {
+                        Id = new Guid("11111111-0000-0000-0000-000000000005"),
+                        AdminKey = "RRADM005",
+                        CreatedAt = new DateTime(2026, 4, 20, 17, 2, 7, 574, DateTimeKind.Utc).AddTicks(7563),
+                        IsActive = true,
+                        Name = "Admin Five",
+                        Phone = "9000000005"
+                    });
+            });
+
             modelBuilder.Entity("Booking", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<decimal>("ActualPrice")
+                    .HasColumnType("numeric(10,2)");
 
-                    b.Property<string>("ServiceType")
-                        .HasColumnType("text");
+                b.Property<string>("AddressCity")
+                    .HasColumnType("text");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("AddressLine1")
+                    .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                b.Property<string>("AddressLine2")
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.Property<string>("AddressState")
+                    .HasColumnType("text");
 
-                    b.ToTable("Bookings");
-                });
+                b.Property<string>("Brand")
+                    .HasColumnType("text");
 
-            modelBuilder.Entity("BookingRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                b.Property<string>("CarModel")
+                    .HasColumnType("text");
 
-                    b.Property<string>("City")
-                        .HasColumnType("text");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
+                b.Property<string>("Duration")
+                    .HasColumnType("text");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                b.Property<string>("FuelType")
+                    .HasColumnType("text");
 
-                    b.Property<string>("ServiceType")
-                        .HasColumnType("text");
+                b.Property<string>("Landmark")
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.Property<string>("PackageName")
+                    .HasColumnType("text");
 
-                    b.ToTable("BookingRequests");
-                });
+                b.Property<string>("PaymentMethod")
+                    .HasColumnType("text");
+
+                b.Property<string>("Pincode")
+                    .HasColumnType("text");
+
+                b.Property<decimal>("Price")
+                    .HasColumnType("numeric(10,2)");
+
+                b.Property<string>("SlotDate")
+                    .HasColumnType("text");
+
+                b.Property<string>("SlotTime")
+                    .HasColumnType("text");
+
+                b.Property<string>("Status")
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                b.Property<Guid>("UserId")
+                    .HasColumnType("uuid");
+
+                b.HasKey("Id");
+
+                b.HasIndex("UserId");
+
+                b.ToTable("Bookings");
+            });
 
             modelBuilder.Entity("User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<string>("City")
-                        .HasColumnType("text");
+                b.Property<string>("City")
+                    .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                b.Property<string>("Email")
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.Property<string>("Name")
+                    .HasColumnType("text");
 
-                    b.ToTable("Users");
-                });
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("text");
+
+                b.HasKey("Id");
+
+                b.HasIndex("PhoneNumber")
+                    .IsUnique();
+
+                b.ToTable("Users");
+            });
+
+            modelBuilder.Entity("Booking", b =>
+            {
+                b.HasOne("User", "User")
+                    .WithMany("Bookings")
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("User");
+            });
+
+            modelBuilder.Entity("User", b =>
+            {
+                b.Navigation("Bookings");
+            });
 #pragma warning restore 612, 618
         }
     }
